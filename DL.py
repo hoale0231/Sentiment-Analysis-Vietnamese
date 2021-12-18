@@ -130,5 +130,6 @@ def validate():
   print(train.predict(sen1))
   print(train.predict(sen2))
   
-# pipeline()  
-validate()
+if __name__ == '__main__':
+  # pipeline()  
+  validate()

@@ -1,6 +1,7 @@
 from tkinter import Tk, BOTH, Text, X, TOP, BOTTOM, LEFT, RIGHT, END, Frame, Button, Label
 from tkinter.ttk import Style
-# from DL import DL
+from DL import DL
+from prep import text_preprocess
 import tkinter.messagebox as mbox
 import numpy as np
 import json
@@ -15,9 +16,9 @@ class App(Frame):
       self.initUI()
 
       # For Deep Learning
-      # self.model_embedding = word2vec.KeyedVectors.load('./model/word2vec.model')
-      # self.train_DL = DL(self.model_embedding)
-      # self.train_DL.loadModel('./model/DLmodels.h5', 300)
+      self.model_embedding = word2vec.KeyedVectors.load('./model/word2vec.model')
+      self.train_DL = DL(self.model_embedding)
+      self.train_DL.loadModel('./model/DLmodels.h5', 300)
   
     def initUI(self):
       self.parent.title("Phân tích cảm xúc")
@@ -44,7 +45,7 @@ class App(Frame):
       bayes_button = Button(self, text="Naive Bayes", width=18, font=("Calibri", 12), activebackground="orange", command=self.predict_bayes)
       bayes_button.place(x=172, y=150)
 
-      deep_button = Button(self, text="Deep Learning", font=("Calibri", 12), width=18, activebackground="orange", command=self.quit)
+      deep_button = Button(self, text="Deep Learning", font=("Calibri", 12), width=18, activebackground="orange", command=self.predict_deep)
       deep_button.place(x=344, y=150)
 
       frame2 = Frame(self)
@@ -95,6 +96,7 @@ class App(Frame):
       if (len(text_input) == 1):
         self.notification()
         return
+      text_input = text_preprocess(text_input)
       w_load = np.load('./model/LR_w.npy').tolist()
       listword_load = np.load('./model/LR_listword.npy').tolist()
       w_load = np.array([w_load])
@@ -155,6 +157,7 @@ class App(Frame):
       if (len(text_input) == 1):
         self.notification()
         return
+      text_input = text_preprocess(text_input)
       priors = np.loadtxt('./model/NB_priors.csv', delimiter=',')
       likelihoods = np.loadtxt('./model/NB_likelihoods.csv', delimiter=',')
       self.loadVocab()
@@ -177,17 +180,17 @@ class App(Frame):
       else:
         self.show_negative()
 
-    # # Predict Deep Learning
-    # def predict_deep(self):
-    #   text_input = self.retrieve_input()
-    #   if (len(text_input) == 1):
-    #     self.notification()
-    #     return
-    #   result = self.train_DL.predict(text_input)
-    #   if (result == "Positive"):
-    #     self.show_positive()
-    #   else:
-    #     self.show_negative()
+    # Predict Deep Learning
+    def predict_deep(self):
+      text_input = self.retrieve_input()
+      if (len(text_input) == 1):
+        self.notification()
+        return
+      result = self.train_DL.predict(text_input)
+      if (result == "Positive"):
+        self.show_positive()
+      else:
+        self.show_negative()
        
 root = Tk()
 root.geometry("500x300+500+250")

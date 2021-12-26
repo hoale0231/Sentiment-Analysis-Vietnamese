@@ -114,7 +114,7 @@ class App(Frame):
       X_text = None
       X_text_np = np.concatenate((np.ones((X_text_np.shape[0], 1)), X_text_np), axis = 1)
       result = self.prob(w_load.T, X_text_np)
-      print("Probability Logistic Regression: ", result[0, 0])
+      # print("Probability Logistic Regression: ", result[0, 0])
       if result[0, 0] >= 0.5:
         self.show_positive()
       else:

@@ -25,3 +25,5 @@ $ pip install -r requirements.txt
 $ python app.py
 ```
 
+## UI
+![](img/ui.png)

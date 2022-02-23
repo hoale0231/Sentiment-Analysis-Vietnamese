@@ -24,6 +24,10 @@ $ pip install -r requirements.txt
 ```sh
 $ python app.py
 ```
+## Accuracy
+| Logistic regression | Naive bayes | Deep learning (W2V + CNN) |
+|:-------------------:|:-----------:|:-------------------------:|
+|        81.99%       |    85.14%   |           88.4%           |
 
 ## UI
 ![](img/ui.png)
